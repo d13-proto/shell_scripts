@@ -1,20 +1,16 @@
-# Sync all .sh files from scripts directory to WSL /etc/profile.d/
-$scriptFiles = Get-ChildItem -Path ".\scripts" -Filter "*.sh" -ErrorAction SilentlyContinue
+# Sync all files from bin directory to WSL /usr/local/bin/
+$files = Get-ChildItem -Path ".\bin" -ErrorAction SilentlyContinue
 
-if ($scriptFiles.Count -eq 0) {
-    Write-Host "Warning: No .sh files found in ./scripts directory" -ForegroundColor Yellow
-    exit 0
-}
-
-foreach ($file in $scriptFiles) {
-    Write-Host "Copying: $($file.Name) ..." -ForegroundColor Cyan
+foreach ($file in $files) {
     $sourcePath = $file.FullName -replace '\\', '/'
-    wsl -u root -- cp "`$(wslpath $sourcePath)" /etc/profile.d/
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host "Successfully copied: $($file.Name)" -ForegroundColor Green
-    } else {
-        Write-Host "Failed to copy: $($file.Name)" -ForegroundColor Red
-    }
+    wsl -u root -- cp -v "`$(wslpath $sourcePath)" /usr/local/bin/
+    wsl -u root -- chmod -v +x "/usr/local/bin/$($file.Name)"
 }
 
-Write-Host "Sync complete!" -ForegroundColor Green
+# Sync all .sh files from profile.d directory to WSL /etc/profile.d/
+$files = Get-ChildItem -Path ".\profile.d" -Filter "*.sh" -ErrorAction SilentlyContinue
+
+foreach ($file in $files) {
+    $sourcePath = $file.FullName -replace '\\', '/'
+    wsl -u root -- cp -v "`$(wslpath $sourcePath)" /etc/profile.d/
+}
