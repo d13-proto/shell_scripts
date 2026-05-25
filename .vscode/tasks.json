@@ -6,6 +6,19 @@
             "type": "process",
             "command": "powershell",
             "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/sync_to_wsl.ps1"],
+            "problemMatcher": []
+        },
+        {
+            "label": "sync_bin_to_local",
+            "type": "process",
+            "command": "powershell",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/sync_bin_to_local.ps1"],
+            "problemMatcher": []
+        },
+        {
+            "label": "sync_windows",
+            "dependsOrder": "sequence",
+            "dependsOn": ["sync_bin_to_local", "sync_to_wsl"],
             "group": {
                 "kind": "build",
                 "isDefault": true
