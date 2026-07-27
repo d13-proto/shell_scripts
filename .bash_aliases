@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+alias gh='HTTPS_PROXY=http://127.0.0.1:7890 HTTP_PROXY=http://127.0.0.1:7890 gh'
+
 # 设置代理变量
 proxy() {
     case "$1" in
