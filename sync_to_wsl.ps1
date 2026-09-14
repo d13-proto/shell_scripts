@@ -7,14 +7,14 @@ foreach ($file in $files) {
     wsl -- chmod -v +x "~/.local/bin/$($file.Name)"
 }
 
-# Sync .bash_aliases to WSL ~/.bash_aliases
-$sourcePath = (Resolve-Path .bash_aliases).Path -replace '\\', '/'
-wsl -- cp -v "`$(wslpath $sourcePath)" ~/.bash_aliases
+# Sync .bashrc.d/* to WSL ~/.bashrc.d/
+$files = Get-ChildItem -Path ".\.bashrc.d" -ErrorAction SilentlyContinue
 
-# Sync profile.d/*.sh to WSL /etc/profile.d/
-$files = Get-ChildItem -Path ".\profile.d" -Filter "*.sh" -ErrorAction SilentlyContinue
+if ($files) {
+    wsl -- mkdir -p ~/.bashrc.d
+}
 
 foreach ($file in $files) {
     $sourcePath = $file.FullName -replace '\\', '/'
-    wsl -u root -- cp -v "`$(wslpath $sourcePath)" /etc/profile.d/
+    wsl -- cp -v "`$(wslpath $sourcePath)" ~/.bashrc.d/
 }
