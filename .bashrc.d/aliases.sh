@@ -43,7 +43,7 @@ if declare -F _journalctl &>/dev/null; then
 fi
 
 # 设置代理变量
-proxy() {
+px() {
     case "$1" in
         on)
             local port="${2:-7890}"
@@ -66,7 +66,7 @@ proxy() {
             env | grep -i '_proxy'
             ;;
         *)
-            echo "usage: proxy {on [port]|off|status}" >&2
+            echo "usage: px {on [port]|off|status}" >&2
             return 1
             ;;
     esac
