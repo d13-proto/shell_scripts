@@ -22,3 +22,19 @@ if [ -d "$repo_dir/.bashrc.d" ]; then
         ln -sfnv "$file" ~/.bashrc.d/"$(basename "$file")"
     done
 fi
+
+# 确保 ~/.bashrc 加载 ~/.bashrc.d/（幂等）
+loader_marker='# 加载 ~/.bashrc.d/ 下的所有配置'
+touch ~/.bashrc
+if ! grep -qF "$loader_marker" ~/.bashrc; then
+    cat >> ~/.bashrc <<'EOF'
+
+# 加载 ~/.bashrc.d/ 下的所有配置
+if [ -d ~/.bashrc.d ]; then
+    for rc in ~/.bashrc.d/*; do
+        [ -f "$rc" ] && . "$rc"
+    done
+fi
+EOF
+    echo "已向 ~/.bashrc 追加 .bashrc.d 加载代码"
+fi
