@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Sync bin/* to ~/.local/bin/ and .bashrc.d/* to ~/.bashrc.d/
+# 将 bin/* 同步到 ~/.local/bin/，将 .bashrc.d/* 同步到 ~/.bashrc.d/
 set -euo pipefail
 
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Sync bin/* to ~/.local/bin/
+# 将 bin/* 同步到 ~/.local/bin/
 if [ -d "$repo_dir/bin" ]; then
     mkdir -p ~/.local/bin
     for file in "$repo_dir"/bin/*; do
@@ -14,7 +14,7 @@ if [ -d "$repo_dir/bin" ]; then
     done
 fi
 
-# Sync .bashrc.d/* to ~/.bashrc.d/
+# 将 .bashrc.d/* 同步到 ~/.bashrc.d/
 if [ -d "$repo_dir/.bashrc.d" ]; then
     mkdir -p ~/.bashrc.d
     for file in "$repo_dir"/.bashrc.d/*; do

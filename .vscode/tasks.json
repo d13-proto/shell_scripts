@@ -2,27 +2,21 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "sync_to_wsl",
-            "type": "process",
-            "command": "powershell",
-            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/sync_to_wsl.ps1"],
-            "problemMatcher": []
-        },
-        {
-            "label": "sync_bin_to_local",
-            "type": "process",
-            "command": "powershell",
-            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/sync_bin_to_local.ps1"],
-            "problemMatcher": []
-        },
-        {
             "label": "sync_windows",
-            "dependsOrder": "sequence",
-            "dependsOn": ["sync_bin_to_local", "sync_to_wsl"],
+            "type": "process",
+            "command": "powershell",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/sync_windows.ps1"],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
+            "problemMatcher": []
+        },
+        {
+            "label": "sync_linux",
+            "type": "process",
+            "command": "wsl",
+            "args": ["--cd", "${workspaceFolder}", "--", "bash", "./sync_linux.sh"],
             "problemMatcher": []
         }
     ]
